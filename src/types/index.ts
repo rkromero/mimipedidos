@@ -14,6 +14,7 @@ export interface Product {
   weight: number;
   price: number;
   category: string;
+  tipoDeProducto: 'panaderia' | 'pasteleria';
   createdAt: Date;
   createdBy: string;
 }
@@ -34,6 +35,7 @@ export interface Order {
   items: OrderItem[];
   total: number;
   notes: string;
+  tipoDeOrder: 'panaderia' | 'pasteleria';
   status: 'nuevo pedido' | 'aceptado' | 'en fabricacion' | 'terminado' | 'entregado' | 'completo';
   createdAt: Date;
   updatedAt: Date;

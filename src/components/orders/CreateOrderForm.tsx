@@ -11,13 +11,22 @@ const CreateOrderForm: React.FC = () => {
   const [notes, setNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [tipoDeOrder, setTipoDeOrder] = useState<'panaderia' | 'pasteleria' | null>(null);
 
-  const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    product.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredProducts = products.filter(product => {
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         product.category.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = !tipoDeOrder || product.tipoDeProducto === tipoDeOrder;
+    return matchesSearch && matchesType;
+  });
 
   const addProduct = (product: Product) => {
+    // Validar que el producto coincida con el tipo de pedido seleccionado
+    if (product.tipoDeProducto !== tipoDeOrder) {
+      alert(`Este producto es de ${product.tipoDeProducto} y no se puede agregar a un pedido de ${tipoDeOrder}`);
+      return;
+    }
+
     const existingItem = selectedItems.find(item => item.productId === product.id);
     
     if (existingItem) {
@@ -66,6 +75,11 @@ const CreateOrderForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!tipoDeOrder) {
+      alert('Debes seleccionar un tipo de pedido');
+      return;
+    }
+    
     if (selectedItems.length === 0) {
       alert('Debes agregar al menos un producto al pedido');
       return;
@@ -86,6 +100,7 @@ const CreateOrderForm: React.FC = () => {
         items: selectedItems,
         total: getTotalAmount(),
         notes,
+        tipoDeOrder: tipoDeOrder!,
         status: 'nuevo pedido'
       });
 
@@ -93,6 +108,7 @@ const CreateOrderForm: React.FC = () => {
       setSelectedItems([]);
       setNotes('');
       setSearchTerm('');
+      setTipoDeOrder(null);
       
       alert('Pedido creado exitosamente');
     } catch (error) {
@@ -108,8 +124,46 @@ const CreateOrderForm: React.FC = () => {
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Crear Nuevo Pedido</h1>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Búsqueda de productos */}
+        {/* Selector de tipo de pedido */}
         <div className="card">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Tipo de Pedido</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <button
+              type="button"
+              onClick={() => setTipoDeOrder('panaderia')}
+              className={`p-6 rounded-lg border-2 transition-all ${
+                tipoDeOrder === 'panaderia'
+                  ? 'border-primary-500 bg-primary-50 text-primary-700'
+                  : 'border-gray-200 hover:border-gray-300 bg-white text-gray-700'
+              }`}
+            >
+              <div className="text-center">
+                <div className="text-4xl mb-2">🥖</div>
+                <div className="font-semibold">Pedido de Panadería</div>
+                <div className="text-sm mt-1 opacity-75">Panes, galletas y productos horneados</div>
+              </div>
+            </button>
+            <button
+              type="button"
+              onClick={() => setTipoDeOrder('pasteleria')}
+              className={`p-6 rounded-lg border-2 transition-all ${
+                tipoDeOrder === 'pasteleria'
+                  ? 'border-primary-500 bg-primary-50 text-primary-700'
+                  : 'border-gray-200 hover:border-gray-300 bg-white text-gray-700'
+              }`}
+            >
+              <div className="text-center">
+                <div className="text-4xl mb-2">🍰</div>
+                <div className="font-semibold">Pedido de Pastelería</div>
+                <div className="text-sm mt-1 opacity-75">Tortas, postres y productos decorados</div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        {/* Búsqueda de productos - Solo mostrar si se seleccionó un tipo */}
+        {tipoDeOrder && (
+          <div className="card">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Seleccionar Productos</h2>
           
           <div className="mb-4">
@@ -147,6 +201,7 @@ const CreateOrderForm: React.FC = () => {
             ))}
           </div>
         </div>
+        )}
 
         {/* Productos seleccionados */}
         <div className="card">

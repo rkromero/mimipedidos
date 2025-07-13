@@ -19,6 +19,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit, onCancel }
     weight: product?.weight || 0,
     price: product?.price || 0,
     category: product?.category || '',
+    tipoDeProducto: product?.tipoDeProducto || 'panaderia' as 'panaderia' | 'pasteleria',
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -151,6 +152,23 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit, onCancel }
                 <option value="Postres">Postres</option>
                 <option value="Bebidas">Bebidas</option>
                 <option value="Otros">Otros</option>
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="tipoDeProducto" className="block text-sm font-medium text-gray-700 mb-1">
+                Tipo de Producto *
+              </label>
+              <select
+                id="tipoDeProducto"
+                name="tipoDeProducto"
+                required
+                className="input-field"
+                value={formData.tipoDeProducto}
+                onChange={handleChange}
+              >
+                <option value="panaderia">🥖 Panadería</option>
+                <option value="pasteleria">🍰 Pastelería</option>
               </select>
             </div>
 
