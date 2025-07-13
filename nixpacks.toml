@@ -5,4 +5,4 @@ cmd = "npm run build"
 cmd = "npm run preview"
 
 [variables]
-NODE_VERSION = "18" 
+NODE_VERSION = "20" 

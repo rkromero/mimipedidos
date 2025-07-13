@@ -11,7 +11,7 @@ const STORAGE_KEYS = {
 
 // Función para serializar fechas
 const serializeData = (data: unknown): string => {
-  return JSON.stringify(data, (key, value) => {
+  return JSON.stringify(data, (_key, value) => {
     if (value instanceof Date) {
       return { __type: 'Date', value: value.toISOString() };
     }
@@ -21,7 +21,7 @@ const serializeData = (data: unknown): string => {
 
 // Función para deserializar fechas
 const deserializeData = (data: string): unknown => {
-  return JSON.parse(data, (key, value) => {
+  return JSON.parse(data, (_key, value) => {
     if (value && typeof value === 'object' && value.__type === 'Date') {
       return new Date(value.value);
     }
