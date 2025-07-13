@@ -161,46 +161,65 @@ const CreateOrderForm: React.FC = () => {
           </div>
         </div>
 
-        {/* Búsqueda de productos - Solo mostrar si se seleccionó un tipo */}
+        {/* Lista de productos - Solo mostrar si se seleccionó un tipo */}
         {tipoDeOrder && (
           <div className="card">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Seleccionar Productos</h2>
-          
-          <div className="mb-4">
-            <input
-              type="text"
-              placeholder="Buscar productos..."
-              className="input-field"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-80 overflow-y-auto">
-            {filteredProducts.map((product) => (
-              <div key={product.id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50">
-                <div className="flex justify-between items-start mb-2">
-                  <div className="flex-1">
-                    <h3 className="font-medium text-gray-900">{product.name}</h3>
-                    <p className="text-sm text-gray-600">{product.presentation}</p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => addProduct(product)}
-                    className="p-2 text-primary-600 hover:text-primary-700"
-                  >
-                    <PlusIcon size={20} />
-                  </button>
-                </div>
-                
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-500">{product.category}</span>
-                  <span className="font-semibold text-green-600">${product.price.toFixed(2)}</span>
-                </div>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+              <h2 className="text-lg font-semibold text-gray-900 mb-2 md:mb-0">
+                Productos de {tipoDeOrder === 'panaderia' ? 'Panadería 🥖' : 'Pastelería 🍰'}
+              </h2>
+              
+              <div className="w-full md:w-64">
+                <input
+                  type="text"
+                  placeholder="Buscar productos..."
+                  className="input-field"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
               </div>
-            ))}
+            </div>
+
+            {filteredProducts.length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-gray-500">
+                  {searchTerm 
+                    ? 'No se encontraron productos con ese término de búsqueda' 
+                    : `No hay productos de ${tipoDeOrder} disponibles`
+                  }
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-96 overflow-y-auto">
+                {filteredProducts.map((product) => (
+                  <div key={product.id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                    <div className="flex justify-between items-start mb-3">
+                      <div className="flex-1">
+                        <h3 className="font-medium text-gray-900 mb-1">{product.name}</h3>
+                        <p className="text-sm text-gray-600 mb-2">{product.presentation}</p>
+                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                          {product.category}
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => addProduct(product)}
+                        className="p-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors ml-2"
+                        title="Agregar producto"
+                      >
+                        <PlusIcon size={16} />
+                      </button>
+                    </div>
+                    
+                    <div className="flex justify-between items-center pt-2 border-t border-gray-200">
+                      <span className="text-sm text-gray-500">{product.weight}kg</span>
+                      <span className="font-semibold text-primary-600 text-lg">${product.price.toFixed(2)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-        </div>
         )}
 
         {/* Productos seleccionados */}
