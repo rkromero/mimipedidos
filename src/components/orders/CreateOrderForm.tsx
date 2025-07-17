@@ -139,7 +139,7 @@ const CreateOrderForm: React.FC = () => {
             >
               <div className="text-center">
                 <div className="text-4xl mb-2">🥖</div>
-                <div className="font-semibold">Pedido de Panadería</div>
+                <div className="font-semibold">Pedido de Panaderia</div>
                 <div className="text-sm mt-1 opacity-75">Panes, galletas y productos horneados</div>
               </div>
             </button>
@@ -154,7 +154,7 @@ const CreateOrderForm: React.FC = () => {
             >
               <div className="text-center">
                 <div className="text-4xl mb-2">🍰</div>
-                <div className="font-semibold">Pedido de Pastelería</div>
+                <div className="font-semibold">Pedido de Pasteleria</div>
                 <div className="text-sm mt-1 opacity-75">Tortas, postres y productos decorados</div>
               </div>
             </button>
@@ -166,7 +166,7 @@ const CreateOrderForm: React.FC = () => {
           <div className="card">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
               <h2 className="text-lg font-semibold text-gray-900 mb-2 md:mb-0">
-                Productos de {tipoDeOrder === 'panaderia' ? 'Panadería 🥖' : 'Pastelería 🍰'}
+                Productos de {tipoDeOrder === 'panaderia' ? 'Panaderia 🥖' : 'Pasteleria 🍰'}
               </h2>
               
               <div className="w-full md:w-64">
@@ -180,29 +180,11 @@ const CreateOrderForm: React.FC = () => {
               </div>
             </div>
 
-            {/* Debug temporal */}
-            <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-              <p className="text-sm text-yellow-800">
-                <strong>Debug:</strong> Total productos: {products.length}, 
-                Tipo seleccionado: {tipoDeOrder}, 
-                Productos filtrados: {filteredProducts.length}
-              </p>
-              <p className="text-sm text-yellow-800">
-                Productos de {tipoDeOrder}: {products.filter(p => p.tipoDeProducto === tipoDeOrder).map(p => p.name).join(', ')}
-              </p>
-              <div className="mt-2 text-xs text-yellow-700">
-                <strong>Todos los productos:</strong>
-                {products.map(p => (
-                  <div key={p.id}>• {p.name} - tipo: "{p.tipoDeProducto}"</div>
-                ))}
-              </div>
-            </div>
-
             {filteredProducts.length === 0 ? (
               <div className="text-center py-8">
                 <p className="text-gray-500">
                   {searchTerm 
-                    ? 'No se encontraron productos con ese término de búsqueda' 
+                    ? 'No se encontraron productos con ese termino de busqueda' 
                     : `No hay productos de ${tipoDeOrder} disponibles`
                   }
                 </p>

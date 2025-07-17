@@ -155,20 +155,20 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit, onCancel }
               </select>
             </div>
 
-            <div>
-              <label htmlFor="tipoDeProducto" className="block text-sm font-medium text-gray-700 mb-1">
-                Tipo de Producto *
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Tipo de Producto
               </label>
               <select
-                id="tipoDeProducto"
                 name="tipoDeProducto"
-                required
-                className="input-field"
                 value={formData.tipoDeProducto}
                 onChange={handleChange}
+                className="input-field"
+                required
               >
-                <option value="panaderia">🥖 Panadería</option>
-                <option value="pasteleria">🍰 Pastelería</option>
+                <option value="">Seleccionar tipo</option>
+                <option value="panaderia">🥖 Panaderia</option>
+                <option value="pasteleria">🍰 Pasteleria</option>
               </select>
             </div>
 
