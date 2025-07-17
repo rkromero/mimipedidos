@@ -190,6 +190,12 @@ const CreateOrderForm: React.FC = () => {
               <p className="text-sm text-yellow-800">
                 Productos de {tipoDeOrder}: {products.filter(p => p.tipoDeProducto === tipoDeOrder).map(p => p.name).join(', ')}
               </p>
+              <div className="mt-2 text-xs text-yellow-700">
+                <strong>Todos los productos:</strong>
+                {products.map(p => (
+                  <div key={p.id}>• {p.name} - tipo: "{p.tipoDeProducto}"</div>
+                ))}
+              </div>
             </div>
 
             {filteredProducts.length === 0 ? (
