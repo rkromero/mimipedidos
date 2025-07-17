@@ -70,6 +70,18 @@ export const createDefaultUser = (): void => {
   }
 };
 
+// Función para resetear todos los datos y reinicializar
+export const resetData = (): void => {
+  // Limpiar localStorage
+  localStorage.removeItem(STORAGE_KEYS.USERS);
+  localStorage.removeItem(STORAGE_KEYS.PRODUCTS);
+  localStorage.removeItem(STORAGE_KEYS.ORDERS);
+  localStorage.removeItem(STORAGE_KEYS.INITIALIZED);
+  
+  // Reinicializar datos
+  createDefaultUser();
+};
+
 // Productos
 export const getProducts = (): Product[] => {
   const products = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
