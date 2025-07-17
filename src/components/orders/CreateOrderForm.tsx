@@ -180,6 +180,18 @@ const CreateOrderForm: React.FC = () => {
               </div>
             </div>
 
+            {/* Debug temporal */}
+            <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <p className="text-sm text-yellow-800">
+                <strong>Debug:</strong> Total productos: {products.length}, 
+                Tipo seleccionado: {tipoDeOrder}, 
+                Productos filtrados: {filteredProducts.length}
+              </p>
+              <p className="text-sm text-yellow-800">
+                Productos de {tipoDeOrder}: {products.filter(p => p.tipoDeProducto === tipoDeOrder).map(p => p.name).join(', ')}
+              </p>
+            </div>
+
             {filteredProducts.length === 0 ? (
               <div className="text-center py-8">
                 <p className="text-gray-500">
@@ -211,7 +223,7 @@ const CreateOrderForm: React.FC = () => {
                       </button>
                     </div>
                     
-                    <div className="flex justify-between items-center pt-2 border-t border-gray-200">
+                    <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-500">{product.weight}kg</span>
                       <span className="font-semibold text-primary-600 text-lg">${product.price.toFixed(2)}</span>
                     </div>
