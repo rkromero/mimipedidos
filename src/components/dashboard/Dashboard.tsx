@@ -83,15 +83,58 @@ const Dashboard: React.FC = () => {
             </p>
           </div>
           {user?.profile === 'dueño' && (
-            <button
-              onClick={handleResetData}
-              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium"
-            >
-              Resetear Datos
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={handleResetData}
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium"
+              >
+                Resetear Datos
+              </button>
+            </div>
           )}
         </div>
       </div>
+
+      {/* Debug temporal: Ver productos cargados */}
+      {user?.profile === 'dueño' && (
+        <div className="card mb-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Debug: Productos Cargados</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <h3 className="font-medium text-gray-900 mb-2">Productos de Panaderia ({products.filter(p => p.tipoDeProducto === 'panaderia').length})</h3>
+              <div className="space-y-1">
+                {products.filter(p => p.tipoDeProducto === 'panaderia').map(p => (
+                  <div key={p.id} className="text-sm text-gray-600">• {p.name} - {p.category}</div>
+                ))}
+                {products.filter(p => p.tipoDeProducto === 'panaderia').length === 0 && (
+                  <div className="text-sm text-red-600">No hay productos de panaderia</div>
+                )}
+              </div>
+            </div>
+            <div>
+              <h3 className="font-medium text-gray-900 mb-2">Productos de Pasteleria ({products.filter(p => p.tipoDeProducto === 'pasteleria').length})</h3>
+              <div className="space-y-1">
+                {products.filter(p => p.tipoDeProducto === 'pasteleria').map(p => (
+                  <div key={p.id} className="text-sm text-gray-600">• {p.name} - {p.category}</div>
+                ))}
+                {products.filter(p => p.tipoDeProducto === 'pasteleria').length === 0 && (
+                  <div className="text-sm text-red-600">No hay productos de pasteleria</div>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+            <h4 className="font-medium text-gray-900 mb-2">Todos los productos ({products.length})</h4>
+            <div className="space-y-1">
+              {products.map(p => (
+                <div key={p.id} className="text-xs text-gray-600">
+                  • {p.name} - tipo: "{p.tipoDeProducto}" - categoria: "{p.category}"
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">

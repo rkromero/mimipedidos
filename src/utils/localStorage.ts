@@ -72,14 +72,58 @@ export const createDefaultUser = (): void => {
 
 // Función para resetear todos los datos y reinicializar
 export const resetData = (): void => {
-  // Limpiar localStorage
+  // Limpiar localStorage completamente
   localStorage.removeItem(STORAGE_KEYS.USERS);
   localStorage.removeItem(STORAGE_KEYS.PRODUCTS);
   localStorage.removeItem(STORAGE_KEYS.ORDERS);
   localStorage.removeItem(STORAGE_KEYS.INITIALIZED);
   
-  // Reinicializar datos
-  createDefaultUser();
+  // Limpiar cualquier otra clave que pueda estar interfiriendo
+  Object.keys(localStorage).forEach(key => {
+    if (key.startsWith('mimi_') || key.includes('pedidos')) {
+      localStorage.removeItem(key);
+    }
+  });
+  
+  // Forzar reinicialización inmediata
+  forceInitialization();
+};
+
+// Función para forzar la inicialización inmediata
+export const forceInitialization = (): void => {
+  const defaultUser: User = {
+    id: 'admin',
+    username: 'admin',
+    password: 'admin123',
+    profile: 'dueño',
+    createdAt: new Date(),
+  };
+  
+  // Crear usuarios de muestra
+  const sampleUsers = createSampleUsers('admin');
+  const allUsers = [defaultUser, ...sampleUsers];
+  saveUsers(allUsers);
+  
+  // Crear productos de muestra
+  const sampleProducts = createSampleProducts('admin');
+  saveProducts(sampleProducts);
+  
+  // Crear pedidos de muestra
+  const sampleOrders = createSampleOrders(allUsers, sampleProducts);
+  saveOrders(sampleOrders);
+  
+  // Marcar como inicializado
+  localStorage.setItem(STORAGE_KEYS.INITIALIZED, 'true');
+  
+  console.log('Datos inicializados:', {
+    users: allUsers.length,
+    products: sampleProducts.length,
+    orders: sampleOrders.length,
+    productTypes: sampleProducts.reduce((acc, p) => {
+      acc[p.tipoDeProducto] = (acc[p.tipoDeProducto] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>)
+  });
 };
 
 // Productos
